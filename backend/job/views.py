@@ -4,12 +4,13 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Job
+from .models import CandidatesApplied, Job
 from .serializers import JobSerializer
 from .filters import JobsFilter
 
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg, Min, Max, Count
+from django.utils import timezone
 
 # Create your views here.
 
@@ -117,3 +118,32 @@ def getTopicStats(request, topic):
     )
 
     return Response(stats)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def applyToJob(request, pk):
+
+    user = request.user
+    job = get_object_or_404(Job, id=pk)
+
+    if user.userprofile.resume == '':
+        return Response({"error": 'Please first upload your resume.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if job.deadlineDate < timezone.now():
+        return Response({"error": 'Sorry, the applying job deadline has been passed.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    alreadyApplied = job.candidatesapplied_set.filter(user=user).exists()
+    if alreadyApplied:
+        return Response({"error": 'You already applied to this job.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    jobApplied = CandidatesApplied.objects.create(
+        job=job,
+        user=user,
+        resume=user.userprofile.resume
+    )
+
+    return Response({
+        'applied': True,
+        'job_id': jobApplied.id
+    }, status=status.HTTP_200_OK)
