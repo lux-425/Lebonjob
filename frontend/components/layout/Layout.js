@@ -6,11 +6,11 @@ import Script from 'next/script';
 import Header from './Header';
 import Footer from './Footer';
 
-const Layout = ({ children, title = 'Lebonjob - Find your right job' }) => {
+const Layout = ({ children, title = 'Find your right job' }) => {
   return (
     <div>
       <Head>
-        <title>{title}</title>
+        <title>{title} - Lebonjob</title>
       </Head>
 
       <Script
