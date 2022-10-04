@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import moment from 'moment';
 
+import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
+mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
+
 const JobDetails = ({ job, candidates }) => {
+  useEffect(() => {
+    // Get and format the longitude/latitude coordinates into a size 2 array
+    const coordinates = job.point.split('(')[1].replace(')', '').split(' ');
+
+    // Create a map and set the center point
+    const map = new mapboxgl.Map({
+      container: 'job-map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      zoom: 11.5,
+      center: coordinates,
+    });
+
+    // Add marker on the map
+    new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+  });
+
   return (
     <div className='job-details-wrapper'>
       <div className='container container-fluid'>
@@ -82,6 +101,7 @@ const JobDetails = ({ job, candidates }) => {
 
               <div className='job-location'>
                 <h4 className='mt-5 mb-4'>Job Location</h4>
+                <div id='job-map' style={{ height: 555, width: '100' }} />
               </div>
             </div>
           </div>
