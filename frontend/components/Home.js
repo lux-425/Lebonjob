@@ -1,11 +1,15 @@
 import React from 'react';
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import JobItem from './job/JobItem';
 
 const Home = ({ data }) => {
   const { jobs, count, resPerPage } = data;
+
+  const router = useRouter();
+  let { keyword } = router.query;
 
   return (
     <div className='container container-fluid'>
@@ -14,14 +18,18 @@ const Home = ({ data }) => {
 
         <div className='col-xl-9 col-lg-8 content-left-offset'>
           <div className='my-5'>
-            <h4 className='page-title'>Latest Jobs</h4>
+            <h4 className='page-title'>
+              {keyword
+                ? `${jobs.length} results for ${keyword}`
+                : 'Latest jobs'}
+            </h4>
             <Link href='/stats'>
               <button className='btn btn-secondary float-right stats_btn'>
-                Get Topic Stats
+                Topic's stats
               </button>
             </Link>
             <div className='d-block'>
-              <Link href='/search'>Go to Search</Link>
+              <Link href='/search'>Search a job</Link>
             </div>
           </div>
           {jobs && jobs.map((job) => <JobItem key={job.id} job={job} />)}
