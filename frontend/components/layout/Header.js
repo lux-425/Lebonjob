@@ -19,7 +19,7 @@ const Header = () => {
         <div className='btnsWrapper'>
           <Link href='/employer/jobs/new'>
             <button className='postAJobButton'>
-              <span>Post a new job</span>
+              <span>Post a job</span>
             </button>
           </Link>
 

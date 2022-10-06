@@ -27,7 +27,7 @@ const JobItem = ({ job }) => {
             </li>
 
             <li>
-              <i aria-hidden className='fas fa-briefcase'></i> {job.type}
+              <i aria-hidden className='fas fa-briefcase'></i> {job.jobType}
             </li>
             <li>
               <i aria-hidden className='fas fa-money-check-alt'></i> $

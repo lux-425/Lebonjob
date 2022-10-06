@@ -118,7 +118,7 @@ const JobDetails = ({ job, candidates }) => {
                 {moment.utc(job.createdAt).local().startOf('seconds').fromNow()}
               </p>
 
-              <h5>Last Date:</h5>
+              <h5>Deadline Date:</h5>
               <p>{job.deadlineDate.substring(0, 10)}</p>
             </div>
 
