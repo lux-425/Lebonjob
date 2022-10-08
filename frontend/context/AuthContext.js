@@ -7,12 +7,18 @@ import { useRouter } from 'next/router';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      retrieveUser();
+    }
+  }, [user]);
 
   // Login the user
   const login = async ({ username, password }) => {
@@ -25,12 +31,36 @@ export const AuthProvider = ({ children }) => {
       });
 
       if (res.data.success) {
+        retrieveUser();
         setIsAuthenticated(true);
         setLoading(false);
         router.push('/');
       }
     } catch (error) {
       setLoading(false);
+      setError(
+        error.response &&
+          (error.response.data.detail || error.response.data.error)
+      );
+    }
+  };
+
+  // Retrieve the logged in user
+  const retrieveUser = async () => {
+    try {
+      setLoading(true);
+
+      const res = await axios.get('/api/auth/user');
+
+      if (res.data.user) {
+        setIsAuthenticated(true);
+        setLoading(false);
+        setUser(res.data.user);
+      }
+    } catch (error) {
+      setLoading(false);
+      setIsAuthenticated(false);
+      setUser(null);
       setError(
         error.response &&
           (error.response.data.detail || error.response.data.error)
