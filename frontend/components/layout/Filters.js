@@ -273,11 +273,11 @@ const Filters = () => {
           onClick={(e) => handleClick(e.target)}
         />
         <label className='form-check-label' htmlFor='defaultCheck2'>
-          $300,000 ~ $500,000
+          $200,000 plus
         </label>
       </div>
 
-      <div className='form-check'>
+      {/* <div className='form-check'>
         <input
           className='form-check-input'
           type='checkbox'
@@ -290,7 +290,7 @@ const Filters = () => {
         <label className='form-check-label' htmlFor='check14'>
           $500,000 ~ $1,000,000 plus
         </label>
-      </div>
+      </div> */}
 
       <hr />
     </div>
