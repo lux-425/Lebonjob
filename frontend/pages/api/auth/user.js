@@ -9,7 +9,7 @@ export default async (req, res) => {
 
     if (!access) {
       return res.status(401).json({
-        error: 'Login first to retrieve user',
+        message: 'Login first to retrieve user',
       });
     }
 

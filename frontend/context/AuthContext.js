@@ -45,6 +45,31 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Register a user
+  const register = async ({ firstName, lastName, email, password }) => {
+    try {
+      setLoading(true);
+      // Send a post req directly to Django's backend because no need for cookies
+      const res = await axios.post(`${process.env.API_URL}/api/register/`, {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+      });
+
+      if (res.data.message) {
+        setLoading(false);
+        router.push('/login');
+      }
+    } catch (error) {
+      setLoading(false);
+      setError(
+        error.response &&
+          (error.response.data.detail || error.response.data.error)
+      );
+    }
+  };
+
   // Retrieve the logged in user
   const retrieveUser = async () => {
     try {
@@ -88,6 +113,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Clear all errors
+  const clearErrors = () => {
+    setError(null);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -96,7 +126,9 @@ export const AuthProvider = ({ children }) => {
         error,
         isAuthenticated,
         login,
-        logout
+        register,
+        logout,
+        clearErrors,
       }}
     >
       {children}
