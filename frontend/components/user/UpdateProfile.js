@@ -7,7 +7,7 @@ import AuthContext from '../../context/AuthContext';
 
 import { toast } from 'react-toastify';
 
-const UpdateProfile = () => {
+const UpdateProfile = ({ access_token }) => {
   const router = useRouter();
 
   const [firstName, setFirstName] = useState('');
@@ -15,7 +15,15 @@ const UpdateProfile = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { loading, error, user, clearErrors } = useContext(AuthContext);
+  const {
+    updated,
+    loading,
+    error,
+    user,
+    clearErrors,
+    updateProfile,
+    setUpdated,
+  } = useContext(AuthContext);
 
   useEffect(() => {
     if (user) {
@@ -28,12 +36,17 @@ const UpdateProfile = () => {
       toast.error(error);
       clearErrors();
     }
-  }, [loading, user, error]);
+
+    if (updated) {
+      setUpdated(false);
+      router.push('/me');
+    }
+  }, [error, user, updated]);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    // register({ firstName, lastName, email, password });
+    updateProfile({ firstName, lastName, email, password }, access_token);
   };
 
   return (
@@ -93,7 +106,6 @@ const UpdateProfile = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     minLength={6}
-                    required
                   />
                 </div>
               </div>
