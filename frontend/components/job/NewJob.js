@@ -16,22 +16,28 @@ const NewJob = ({ access_token }) => {
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
+  const [salary, setSalary] = useState('');
+  const [positions, setPositions] = useState('');
+  const [company, setCompany] = useState('');
   const [jobType, setJobType] = useState('Permanent');
   const [education, setEducation] = useState('Bachelors');
   const [industry, setIndustry] = useState('IT');
   const [experience, setExperience] = useState('No Experience');
-  const [salary, setSalary] = useState('');
-  const [positions, setPositions] = useState('');
-  const [company, setCompany] = useState('');
 
-  const { clearErrors, error, loading } = useContext(JobContext);
+  const { clearErrors, error, loading, posted, setPosted, newJob } =
+    useContext(JobContext);
 
   useEffect(() => {
     if (error) {
       toast.error(error);
       clearErrors();
     }
-  }, [error]);
+
+    if (posted) {
+      setPosted(false);
+      toast.success('Job offer posted successfully!');
+    }
+  }, [error, posted]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -50,9 +56,15 @@ const NewJob = ({ access_token }) => {
       company,
     };
 
-    console.log(data);
+    newJob(data, access_token);
 
-    // NewJob(data, access_token);
+    setTitle('');
+    setDescription('');
+    setEmail('');
+    setAddress('');
+    setSalary('');
+    setPositions('');
+    setCompany('');
   };
 
   return (
@@ -64,7 +76,7 @@ const NewJob = ({ access_token }) => {
             <i aria-hidden className='fas fa-copy mr-2'></i> POST A JOB
           </h1>
         </div>
-        <form className='form' onSubmit={submitHandler}>
+        <form className='form' onSubmit={submitHandler} id='jobForm'>
           <div className='row'>
             <div className='col-12 col-md-6'>
               <div className='inputWrapper'>

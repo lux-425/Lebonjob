@@ -2,7 +2,7 @@ export const jobTypeOptions = ['Permanent', 'Temporary', 'Internship'];
 export const educationOptions = ['Bachelors', 'Masters', 'Phd'];
 export const industryOptions = [
   'Business',
-  'IT',
+  'Information Technology',
   'Banking',
   'Education',
   'Telecommunication',
