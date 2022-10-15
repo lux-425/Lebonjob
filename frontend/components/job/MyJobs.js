@@ -1,10 +1,36 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 
 import DataTable from 'react-data-table-component';
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import JobContext from '../../context/JobContext';
+
+import { toast } from 'react-toastify';
 
 const MyJobs = ({ jobs, access_token }) => {
+  const { clearErrors, error, loading, deleted, setDeleted, deleteJob } =
+    useContext(JobContext);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      clearErrors();
+    }
+
+    if (deleted) {
+      setDeleted(false);
+      router.push(router.asPath);
+    }
+  }, [error, deleted]);
+
+  const deleteJobHandler = (id) => {
+    deleteJob(id, access_token);
+  };
+
   const columns = [
     {
       name: 'Job ID',
@@ -53,7 +79,10 @@ const MyJobs = ({ jobs, access_token }) => {
                 <i aria-hidden className='fa fa-pencil'></i>
               </a>
             </Link>
-            <button className='btn btn-danger mx-1'>
+            <button
+              className='btn btn-danger mx-1'
+              onClick={() => deleteJobHandler(job.id)}
+            >
               <i className='fa fa-trash'></i>
             </button>
           </>
