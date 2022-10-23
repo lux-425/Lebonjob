@@ -14,7 +14,7 @@ const JobDetails = ({ job, candidates, access_token }) => {
 
   useEffect(() => {
     // Get and format the longitude/latitude coordinates into a size 2 array
-    const coordinates = job.point.split('(')[1].replace(')', '').split(' ');
+    const coordinates = job?.point.split('(')[1].replace(')', '').split(' ');
 
     // Create a map and set the center point
     const map = new mapboxgl.Map({
@@ -39,7 +39,7 @@ const JobDetails = ({ job, candidates, access_token }) => {
     applyToJob(job.id, access_token);
   };
 
-  const dateDeadline = moment(job.deadlineDate);
+  const dateDeadline = moment(job?.deadlineDate);
   const dateToday = moment(Date.now());
   const isDeadlineDatePassed =
     dateDeadline.diff(dateToday, 'days') < 0 ? true : false;
@@ -51,14 +51,14 @@ const JobDetails = ({ job, candidates, access_token }) => {
           <div className='col-xl-9 col-lg-8'>
             <div className='job-details p-3'>
               <div className='job-header p-4'>
-                <h2>{job.title}</h2>
+                <h2>{job?.title}</h2>
                 <span>
                   <i aria-hidden className='fas fa-building'></i>
-                  <span> {job.company}</span>
+                  <span> {job?.company}</span>
                 </span>
                 <span className='ml-4'>
                   <i aria-hidden className='fas fa-map-marker-alt'></i>
-                  <span> {job.address}</span>
+                  <span> {job?.address}</span>
                 </span>
 
                 <div className='mt-3'>
@@ -92,7 +92,7 @@ const JobDetails = ({ job, candidates, access_token }) => {
 
               <div className='job-description mt-5'>
                 <h4>Description</h4>
-                <p>{job.description}</p>
+                <p>{job?.description}</p>
               </div>
 
               <div className='job-summary'>
@@ -102,37 +102,37 @@ const JobDetails = ({ job, candidates, access_token }) => {
                     <tr>
                       <td>Job Type</td>
                       <td>:</td>
-                      <td>{job.jobType}</td>
+                      <td>{job?.jobType}</td>
                     </tr>
 
                     <tr>
                       <td>Job Industry</td>
                       <td>:</td>
-                      <td>{job.industry}</td>
+                      <td>{job?.industry}</td>
                     </tr>
 
                     <tr>
                       <td>Expected Salary</td>
                       <td>:</td>
-                      <td>${job.salary}</td>
+                      <td>${job?.salary}</td>
                     </tr>
 
                     <tr>
                       <td>Education</td>
                       <td>:</td>
-                      <td>{job.education}</td>
+                      <td>{job?.education}</td>
                     </tr>
 
                     <tr>
                       <td>Experience</td>
                       <td>:</td>
-                      <td>{job.experience}</td>
+                      <td>{job?.experience}</td>
                     </tr>
 
                     <tr>
                       <td>Company</td>
                       <td>:</td>
-                      <td>{job.company}</td>
+                      <td>{job?.company}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -150,15 +150,19 @@ const JobDetails = ({ job, candidates, access_token }) => {
               <h4 className='my-4'>More Details</h4>
               <hr />
               <h5>Contact Address:</h5>
-              <p>{job.email}</p>
+              <p>{job?.email}</p>
 
               <h5>Job Posted:</h5>
               <p>
-                {moment.utc(job.createdAt).local().startOf('seconds').fromNow()}
+                {moment
+                  .utc(job?.createdAt)
+                  .local()
+                  .startOf('seconds')
+                  .fromNow()}
               </p>
 
               <h5>Deadline Date:</h5>
-              <p>{job.deadlineDate.substring(0, 10)}</p>
+              <p>{job?.deadlineDate.substring(0, 10)}</p>
             </div>
 
             {isDeadlineDatePassed && (
@@ -167,7 +171,7 @@ const JobDetails = ({ job, candidates, access_token }) => {
                   <h5>Note:</h5>
                   You can no longer apply to this job. This job offer is
                   expired. Last date to apply for this job was:{' '}
-                  <b>{job.deadlineDate.substring(0, 10)}</b>
+                  <b>{job?.deadlineDate.substring(0, 10)}</b>
                   <br /> Checkout other jobs on Lebonjob.
                 </div>
               </div>

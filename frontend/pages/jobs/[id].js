@@ -13,7 +13,7 @@ export default function JobDetailsPage({
   if (error?.includes('Not found')) return <NotFound />;
 
   return (
-    <Layout title={job.title}>
+    <Layout title={job?.title}>
       <JobDetails
         job={job}
         candidates={candidates}
@@ -44,7 +44,7 @@ export async function getServerSideProps({ req, params }) {
   } catch (error) {
     return {
       props: {
-        error: error.response.data.detail,
+        error: error.response.data,
       },
     };
   }

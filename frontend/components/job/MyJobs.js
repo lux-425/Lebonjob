@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 
 import DataTable from 'react-data-table-component';
 
-import Link from 'next/link';
+// import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import JobContext from '../../context/JobContext';
@@ -64,21 +64,27 @@ const MyJobs = ({ jobs, access_token }) => {
         salary: '$' + job.salary,
         action: (
           <>
-            <Link href={`/jobs/${job.id}`}>
-              <a className='btn btn-primary'>
-                <i aria-hidden className='fa fa-eye'></i>
-              </a>
-            </Link>
-            <Link href={`/employer/jobs/candidates/${job.id}`}>
-              <a className='btn btn-success my-2 mx-1'>
-                <i aria-hidden className='fa fa-users'></i>
-              </a>
-            </Link>
-            <Link href={`/employer/jobs/${job.id}`}>
-              <a className='btn btn-warning my-2 mx-1'>
-                <i aria-hidden className='fa fa-pencil'></i>
-              </a>
-            </Link>
+            {/* <Link href={`/jobs/${job.id}`}> */}
+            <a className='btn btn-primary' href={`/jobs/${job.id}`}>
+              <i aria-hidden className='fa fa-eye'></i>
+            </a>
+            {/* </Link> */}
+            {/* <Link href={`/employer/jobs/candidates/${job.id}`}> */}
+            <a
+              className='btn btn-success my-2 mx-1'
+              href={`/employer/jobs/candidates/${job.id}`}
+            >
+              <i aria-hidden className='fa fa-users'></i>
+            </a>
+            {/* </Link> */}
+            {/* <Link href={`/employer/jobs/${job.id}`}> */}
+            <a
+              className='btn btn-warning my-2 mx-1'
+              href={`/employer/jobs/${job.id}`}
+            >
+              <i aria-hidden className='fa fa-pencil'></i>
+            </a>
+            {/* </Link> */}
             <button
               className='btn btn-danger mx-1'
               onClick={() => deleteJobHandler(job.id)}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import DataTable from 'react-data-table-component';
 
-import Link from 'next/link';
+// import Link from 'next/link';
 
 const AppliedJobs = ({ jobs }) => {
   const columns = [
@@ -49,11 +49,11 @@ const AppliedJobs = ({ jobs }) => {
         experience: item.job.experience,
         appliedDate: item.appliedAt.substring(0, 10),
         action: (
-          <Link href={`/jobs/${item.job.id}`}>
-            <a className='btn btn-primary'>
-              <i aria-hidden className='fa fa-eye'></i>
-            </a>
-          </Link>
+          // <Link href={`/jobs/${item.job.id}`}>
+          <a className='btn btn-primary' href={`/jobs/${item.job.id}`}>
+            <i aria-hidden className='fa fa-eye'></i>
+          </a>
+          // </Link>
         ),
       });
     });

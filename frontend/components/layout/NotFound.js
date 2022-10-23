@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 import Layout from './Layout';
 
@@ -8,7 +9,7 @@ const NotFound = () => {
   return (
     <Layout title='Page not found'>
       <div className='page-not-found-wrapper'>
-        <img
+        <Image
           src='/images/404.svg'
           height='555'
           width='555'
